@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen
+        xmlns:app="http://schemas.android.com/apk/res-auto" id="@+id/setting_container">
+
+    <PreferenceCategory
+        app:key="notifications_category"
+        app:title="Notifications">
+
+        <SwitchPreferenceCompat
+            app:key="notifications"
+            app:title="Enable message notifications"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        app:key="help_category"
+        app:title="Help">
+
+        <Preference
+            app:key="feedback"
+            app:title="Send feedback"
+            app:summary="Report technical issues or suggest new features"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        app:key="account"
+        app:title="Account">
+
+        <EditTextPreference
+            app:key="username"
+            app:title="User name"/>
+
+        <EditTextPreference
+            app:key="userEmail"
+            app:title="Email"/>
+
+    </PreferenceCategory>
+
+</androidx.preference.PreferenceScreen>
