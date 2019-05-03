@@ -1,6 +1,13 @@
 package com.example.nootkeeper_kotlin
 
+import android.app.AlertDialog
+import android.app.Dialog
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.app.PendingIntent.getActivity
+import android.content.Context
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import androidx.core.view.GravityCompat
@@ -11,11 +18,13 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import android.view.Menu
 import android.widget.TextView
+import androidx.fragment.app.DialogFragment
 import androidx.preference.PreferenceManager.getDefaultSharedPreferences
 import kotlinx.android.synthetic.main.content_items.*
 import kotlinx.android.synthetic.main.nav_header_items.*
 
 class ItemsActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
+    private val CHANNEL_ID = "CHANNEL_TEST"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,6 +52,21 @@ class ItemsActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelect
         navView.setNavigationItemSelectedListener(this)
 
         updateDrawer()
+
+        createNotificationChannel();
+    }
+
+    private fun createNotificationChannel() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val name = getString(R.string.channel_name)
+            val descriptionText = getString(R.string.channel_descriprition)
+            val importance = NotificationManager.IMPORTANCE_DEFAULT
+            val channel = NotificationChannel(CHANNEL_ID, name, importance).apply{
+                description = descriptionText
+            }
+            val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            notificationManager.createNotificationChannel(channel)
+        }
     }
 
     private fun updateDrawer() {
@@ -57,9 +81,7 @@ class ItemsActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelect
         header.findViewById<TextView>(R.id.textUserEmail).apply{
             text = userEmail
         }
-
     }
-
 
     override fun onResume() {
         super.onResume()
@@ -114,7 +136,8 @@ class ItemsActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelect
 
             }
             R.id.nav_send -> {
-
+                val dialog = SendDialogFragment()
+                dialog.show(supportFragmentManager, "sendDialogFragment")
             }
         }
         val drawerLayout: androidx.drawerlayout.widget.DrawerLayout = findViewById(R.id.drawer_layout)

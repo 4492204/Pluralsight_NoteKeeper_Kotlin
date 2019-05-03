@@ -1,5 +1,7 @@
 package com.example.nootkeeper_kotlin
 
+import android.app.Activity
+import android.app.ActivityOptions
 import android.content.Context
 import android.content.Intent
 import androidx.recyclerview.widget.RecyclerView
@@ -7,6 +9,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.core.app.ActivityOptionsCompat
+import androidx.transition.Scene
 
 class NoteRecyclerAdapter(private val context: Context, private val notes: List<NoteInfo>) :
     androidx.recyclerview.widget.RecyclerView.Adapter<NoteRecyclerAdapter.ViewHolder>() {
@@ -31,12 +35,13 @@ class NoteRecyclerAdapter(private val context: Context, private val notes: List<
     inner class ViewHolder(itemView: View?) : androidx.recyclerview.widget.RecyclerView.ViewHolder(itemView!!) {
         val textCourse = itemView?.findViewById<TextView?>(R.id.textCourse)
         val textTitle = itemView?.findViewById<TextView?>(R.id.textTitle)
+
         var notePosition = 0
         init{
             itemView?.setOnClickListener{
                 val intent = Intent(context, NoteActivity::class.java)
                 intent.putExtra(NOTE_POSITION, notePosition)
-                context.startActivity(intent)
+                context.startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(context as Activity).toBundle())
             }
         }
     }
