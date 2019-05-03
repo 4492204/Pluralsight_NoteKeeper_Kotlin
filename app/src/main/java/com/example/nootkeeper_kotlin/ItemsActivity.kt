@@ -20,10 +20,13 @@ import android.view.Menu
 import android.widget.TextView
 import androidx.fragment.app.DialogFragment
 import androidx.preference.PreferenceManager.getDefaultSharedPreferences
+import androidx.work.*
 import kotlinx.android.synthetic.main.content_items.*
 import kotlinx.android.synthetic.main.nav_header_items.*
 
-class ItemsActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
+class ItemsActivity() : AppCompatActivity(),
+    NavigationView.OnNavigationItemSelectedListener {
+
     private val CHANNEL_ID = "CHANNEL_TEST"
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -53,10 +56,11 @@ class ItemsActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelect
 
         updateDrawer()
 
-        createNotificationChannel();
+//        createNotificationChannel();
+
     }
 
-    private fun createNotificationChannel() {
+    fun createNotificationChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val name = getString(R.string.channel_name)
             val descriptionText = getString(R.string.channel_descriprition)
